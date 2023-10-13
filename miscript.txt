@@ -1,0 +1,60 @@
+#! /bin/bash
+
+archivo_contactos="/home/user/Desktop/MenuContactos"
+
+crear_contacto() {
+    read -p "Ingresa el nombre del contacto: " nombre
+    read -p "Ingresa el apellido del contacto: " apellido
+    read -p "Ingresa el e-mail del contacto: " mail
+    read -p "Ingresa el número de teléfono del contacto: " telefono
+
+    # Guardar el contacto en el archivo de contactos
+    echo "$nombre:$apellido:$mail:$telefono" >> "$archivo_contactos"
+    echo "Contacto creado exitosamente."
+}
+
+buscar_contacto() {
+    read -p "Ingresa el nombre del contacto que deseas buscar: " nombre_buscar
+
+    # Buscar el contacto en el archivo de contactos
+    if grep -q "$nombre_buscar" "$archivo_contactos"; then
+        echo "Información del contacto:"
+        grep "$nombre_buscar" "$archivo_contactos"
+    else
+        echo "Contacto no encontrado."
+    fi
+}
+
+while true; do
+    clear
+    echo "Menú"
+    echo "1) Crear"
+    echo "2) Buscar"
+    echo "3) Ayuda"
+    echo "4) Salir"
+
+    read -p "Selecciona una opción: " opcion
+
+    case $opcion in
+        1|Crear|crear)
+	crear_contacto
+     
+            ;;
+        2|Buscar|buscar)
+        buscar_contacto
+         
+            ;;
+        3|Ayuda|ayuda)
+            echo "Para obtener ayuda por favor comunícate con Belli C"
+            ;;
+        4|Salir|salir)
+            echo "Saliendo..."
+            exit 0
+            ;;
+        *)
+            echo "Opción no válida. Por favor, selecciona una opción válida."
+            ;;
+    esac
+
+    read -p "Presiona Enter para cambiar de opción"
+done
